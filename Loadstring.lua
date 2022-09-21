@@ -21,11 +21,11 @@ local waitDeps = {
 
 for i,v in pairs(waitDeps) do script:WaitForChild(v) end
 
-local luaX = require(script.LuaX)
-local luaY = require(script.LuaY)
-local luaZ = require(script.LuaZ)
-local luaU = require(script.LuaU)
-local lbi = require(script.LBI)
+local luaX = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaX.lua"))()
+local luaY = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaY.lua"))()
+local luaZ = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaZ.lua"))()
+local luaU = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaU.lua"))()
+local lbi = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LBI.lua"))()
 
 luaX:init()
 local LuaState = {}
