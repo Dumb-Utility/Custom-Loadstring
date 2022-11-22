@@ -68,7 +68,7 @@
 --
 --------------------------------------------------------------------]]
 
-local luaZ = require(script.Parent.LuaZ)
+local luaZ = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaZ.lua"))()
 
 local luaX = {}
 

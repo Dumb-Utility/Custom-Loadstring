@@ -71,9 +71,9 @@
 
 --requires luaP, luaX, luaK
 local luaY = {}
-local luaX = require(script.Parent.LuaX)
-local luaK = require(script.Parent.LuaK)(luaY)
-local luaP = require(script.Parent.LuaP)
+local luaX = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaX.lua"))()
+local luaK = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaK.lua"))()(luaY)
+local luaP = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaP.lua"))()
 
 --[[--------------------------------------------------------------------
 -- Expression descriptor

@@ -9,17 +9,17 @@
 	einsteinK was here again to fix a bug in LBI for if-statements
 --]]
 
-local waitDeps = {
-	'LBI';
-	'LuaK';
-	'LuaP';
-	'LuaU';
-	'LuaX';
-	'LuaY';
-	'LuaZ';
-}
+-- local waitDeps = {
+-- 	'LBI';
+-- 	'LuaK';
+-- 	'LuaP';
+-- 	'LuaU';
+-- 	'LuaX';
+-- 	'LuaY';
+-- 	'LuaZ';
+-- }
 
-for i,v in pairs(waitDeps) do script:WaitForChild(v) end
+-- for i,v in pairs(waitDeps) do script:WaitForChild(v) end
 
 local luaX = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaX.lua"))()
 local luaY = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaY.lua"))()
