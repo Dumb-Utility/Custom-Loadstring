@@ -344,6 +344,7 @@ end
 -- * this is the next() macro in llex.c; see notes at the beginning
 ------------------------------------------------------------------------
 function luaX:nextc(ls)
+  print(luaZ)
   local c = luaZ:zgetc(ls.z)
   ls.current = c
   return c
