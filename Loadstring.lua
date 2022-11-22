@@ -1,55 +1,57 @@
 --[[
-	Credit to einsteinK.
-	Credit to Stravant for LBI.
-	
-	Credit to the creators of all the other modules used in this.
-	
-	Sceleratis was here and decided modify some things.
-	
-	einsteinK was here again to fix a bug in LBI for if-statements
---]]
+		For support or to check out our other projects, join us on the Bleu Pigs Discord:
+		https://discord.gg/H73NsjfBbP
+		---------------
+		vLua 5.1 - Lua written in Lua Virtual Machine
+		---------------
+		vLua is a virtual machine and compiler for dynamically compiling and executing Lua.
+		It'll work on both client and server, regardless of LoadStringEnabled. This module is
+		designed to be a drop in replacement for loadstring, meaning you can do the following:
+		
+		Example:
+			local loadstring = require(workspace.Loadstring)
+			local executable, compileFailReason = loadstring("print('hello from vLua!')")
+			executable()
+		
+		Please note, vLua IS SLOWER COMPARED TO vanilla Lua, although Luau does improve performance.
+		Do not attempt to run performance intensive tasks without testing first, otherwise you
+		may have a bad time.
+		
+		Changelog:
+			[8/13/2022]
+				- updated FiOne to latest release - https://github.com/Rerumu/FiOne/commit/b983f11a0a318dae6c7804161b1cbc3aa52a8236
+				- removed link to Minecraft server Discord
+				- added link to Bleu Pigs General Discord
+			[1/18/2022]
+				- updated FiOne to latest release - https://github.com/Rerumu/FiOne/commit/900413a8491a44daa7770d799c85ad6df8610eea
+				- added link to Minecraft server Discord
+			[1/1/2022]
+				- fixed environment not being properly set for compiled function
+			[11/12/2021]
+				- removed previous changelogs
+				- updated FiOne to latest release - https://github.com/Rerumu/FiOne/blob/f443116e947e5bb3fe8bb7e6abca78214a245145/source.lua
+				- fixed attempt to call a nil value error
+		
+		Credits:
+			- FiOne LBI (created by same author as Rerubi) - https://github.com/Rerumu/FiOne
+			- Yueliang 5 (Lua compiler in Lua) - http://yueliang.luaforge.net/
+			- Moonshine (improved version of Yeuliang) - https://github.com/gamesys/moonshine
+]]
+local compile = require(script:WaitForChild("Yueliang"))
+local createExecutable = require(script:WaitForChild("FiOne"))
+getfenv().script = nil
 
--- local waitDeps = {
--- 	'LBI';
--- 	'LuaK';
--- 	'LuaP';
--- 	'LuaU';
--- 	'LuaX';
--- 	'LuaY';
--- 	'LuaZ';
--- }
-
--- for i,v in pairs(waitDeps) do script:WaitForChild(v) end
-
-local luaX = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaX.lua"))()
-local luaY = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaY.lua"))()
-local luaZ = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaZ.lua"))()
-local luaU = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LuaU.lua"))()
-local lbi = loadstring(game:HttpGet("https://raw.githubusercontent.com/nahboi/Loadstring/main/LBI.lua"))()
-
-luaX:init()
-local LuaState = {}
-
-return function(str,env)
-	local f,writer,buff
-	local ran,error=pcall(function()
-		local zio = luaZ:init(luaZ:make_getS(str), nil)
-		if not zio then return error() end
-		local func = luaY:parser(LuaState, zio, nil, "@input")
-		writer, buff = luaU:make_setS()
-		luaU:dump(LuaState, func, writer, buff)
-		f = lbi.load_bytecode(buff.data)
-		if env then		
-			setfenv(f,env)
-		else
-			local env=getfenv()
-			env.script=nil
-			setfenv(f,env)
-		end
+return function(source, env)
+	local executable
+	local env = env or getfenv(2)
+	local name = (env.script and env.script:GetFullName())
+	local ran, failureReason = pcall(function()
+		local compiledBytecode = compile(source, name)
+		executable = createExecutable(compiledBytecode, env)
 	end)
+	
 	if ran then
-		return f,buff.data
-	else
-		return nil,error
+		return setfenv(executable, env)
 	end
+	return nil, failureReason
 end
