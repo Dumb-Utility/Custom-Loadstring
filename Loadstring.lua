@@ -37,8 +37,13 @@
 			- Yueliang 5 (Lua compiler in Lua) - http://yueliang.luaforge.net/
 			- Moonshine (improved version of Yeuliang) - https://github.com/gamesys/moonshine
 ]]
-local compile = require(script:WaitForChild("Yueliang"))
-local createExecutable = require(script:WaitForChild("FiOne"))
+
+function GetFile(User, Repo, Branch, Name)
+	return loadstring(game:HttpGet("https://raw.githubusercontent.com/"..User.."/"..Repo.."/"..Branch.."/"..Name))()
+end
+
+local compile = GetFile("Dumb-Utility", "Custom-Loadstring", "main", "Yueliang.lua")
+local createExecutable = GetFile("Dumb-Utility", "Custom-Loadstring", "main", "FiOne.lua")
 getfenv().script = nil
 
 return function(source, env)
